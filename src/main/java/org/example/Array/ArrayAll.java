@@ -1,6 +1,7 @@
 package org.example.Array;
 
 import java.util.*;
+import java.util.stream.IntStream;
 
 public class ArrayAll {
 
@@ -44,8 +45,42 @@ public class ArrayAll {
 //        }
 //        System.out.println(earliestTime(arr));
 //        System.out.println(maxTotalValue(ar,k));
-        maxFrequencyElements(ar);
+//        maxFrequencyElements(ar);
+//        System.out.println(  rangeSum(ar,ar.length,3,4));
+        System.out.println(  sumDivisibleByK(new int [] {1,2,2,3,3,3,3,4},2));
         }
+    public static  int sumDivisibleByK(int[] nums, int k) {
+        Map<Integer,Integer> map=new HashMap<>();
+        for(int num:nums){
+            map.put(num,map.getOrDefault(num,0)+1);
+        }
+        int sum=0;
+        for(int i=0;i<nums.length;i++){
+            if(map.get(nums[i])%2==0)
+                sum+=nums[i];
+        }
+        return sum;
+    }
+    public static  int rangeSum(int[] nums, int n, int left, int right) {
+        int newar[]=new int[n*(n+1)/2];
+        int k=0;
+        for(int i=0;i<n;i++){
+            int sum=0;
+            for(int j=i;j<n;j++){
+                sum=sum+nums[j];
+                newar[k++]=sum;
+            }
+        }
+        Arrays.sort(newar);
+        int ans=0;
+        for(int i=left-1;i<right;i++)
+        {
+            ans+=newar[i];
+        }
+        return ans;
+    }
+
+
 
 
     public static int maxFrequencyElements(int[] nums) {

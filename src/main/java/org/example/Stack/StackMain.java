@@ -35,8 +35,41 @@ public class StackMain {
 //        System.out.println(maxHistogram(ar));
 //        String s=sc.nextLine();
 //        System.out.println(isValid(s));
-        dailyTemperatures(ar);
+//        dailyTemperatures(ar);
+        removeSubstring("(())",1);
     }
+
+
+    public static String removeSubstring(String s, int k) {
+        String pattern="(".repeat(k) + ")".repeat(k);
+        Stack<Character> stack=new Stack<>();
+        char[] ch=s.toCharArray();
+        for(int i=0;i<ch.length;i++){
+            stack.push(ch[i]);
+            while(stack.size()>=2*k&& BalancedStack(stack,k)){
+                for (int j = 0; j < 2 * k; j++) stack.pop();
+            }
+        }
+
+        StringBuilder sb = new StringBuilder(stack.size());
+        for (char c : stack) sb.append(c);
+        System.out.println(sb);
+        return sb.toString();
+    }
+
+    private static boolean BalancedStack(Stack<Character> stack, int k) {
+        int left=stack.size()-2*k;
+        for(int i=left;i<left+k;i++){
+            if(stack.get(i)!='(')
+                return false;
+
+        }
+        for (int i = left + k; i < left + 2 * k; i++) {
+            if (stack.get(i) != ')') return false;
+        }
+        return true;
+    }
+
     public static int evalRPN(String[] tokens) {
         Stack<Integer>stack=new Stack<>();
         for(String c:tokens){

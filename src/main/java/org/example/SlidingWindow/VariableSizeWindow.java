@@ -1,6 +1,8 @@
 package org.example.SlidingWindow;
 
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class VariableSizeWindow {
@@ -20,11 +22,34 @@ public class VariableSizeWindow {
 //          totalFruits(ar);
 
 //        System.out.println(numSubarrayProductLessThanK(ar,k));
-        System.out.println(subarraysWithKDistinct(ar,k));
+        //System.out.println(subarraysWithKDistinct(ar,k));
+        System.out.println(longestSubarray(new int[]{5,2,7,9,16}));
     }
+    public static int longestSubarray(int[] nums) {
+        int j=2;
+        int len=2;
+        int maxlength=2;
+        while(j<nums.length){
+            if(nums[j]==(nums[j-1]+nums[j-2])){
+                len++;
+            }else{
+                maxlength=Math.max(maxlength,len);
+                len=2;
+            }
+            j++;
+        }
+        maxlength = Math.max(maxlength, len);
+        return maxlength;
+    }
+
+
+
     public static int subarraysWithKDistinct(int[] nums, int k) {
         return atMostK(nums, k) - atMostK(nums, k - 1);
     }
+
+
+
     public static int atMostK(int[] nums, int k) {
         HashMap<Integer,Integer>map=new HashMap<>();
         int count=0;

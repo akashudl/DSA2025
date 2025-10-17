@@ -1,12 +1,16 @@
 package org.example.StringsPractice;
 
+import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class StringPractice {
     public static void main(String[] args) {
@@ -22,11 +26,66 @@ public class StringPractice {
       //  balancedStringSplit(s);
 //        System.out.println(isPalindrome(s));
 //        System.out.println(isAnagram("anagram","nagaram"));
-        System.out.println(isIsomorphic("foo","bar"));
-        System.out.println(minOperations(s));
+//        System.out.println(isIsomorphic("foo","bar"));
+//        System.out.println(minOperations(s));
+//        System.out.println( majorityFrequencyGroup(s));
+        System.out.println(maximumNumberOfStringPairs(     new String[] {"ku","dd","gu","uk"}));
+    }
+
+
+    public static boolean scoreBalance(String s) {
+        int totalsum=0;
+        for(int i=-0;i<s.length();i++){
+            totalsum += (s.charAt(i) - 'a' + 1);
+        }
+        int prefixsum=0;
+        for(int i=0;i<=s.length()-2;i++){
+            prefixsum+=(s.charAt(i)-'a'+1);
+            if (prefixsum*2== totalsum) return true;
+        }
+        return false;
+    }
+    public static int maximumNumberOfStringPairs(String[] words) {
+        int count=0;
+        for(int i=0;i<words.length;i++){
+            StringBuffer sbf = new StringBuffer(words[i]);
+            String s= String.valueOf(sbf.reverse());
+           for(int j=i+1;j<words.length;j++){
+               if(s.equals(words[j]))
+                   count++;
+           }
+
+        }
+        return count;
+
 
     }
 
+    public static String majorityFrequencyGroup(String s) {
+        Map<Character,Integer>m=new HashMap<>();
+        for(Character c:s.toCharArray()){
+            m.put(c,m.getOrDefault(c,0)+1);
+        }
+        Map<Integer, List<Character>> groupm = new HashMap<>();
+        for (Map.Entry<Character, Integer> entry : m.entrySet()) {
+            int freq = entry.getValue();
+            groupm.computeIfAbsent(freq, k -> new ArrayList<>()).add(entry.getKey());
+        }
+
+        List<Character> bg = groupm.entrySet().stream()
+                .max(Comparator.<Map.Entry<Integer, List<Character>>>comparingInt(e -> e.getValue().size())
+                        .thenComparingInt(Map.Entry::getKey))
+                .map(Map.Entry::getValue)
+                .orElse(Collections.emptyList());
+
+        StringBuilder res = new StringBuilder();
+        for (char c : bg) {
+            res.append(c);
+        }
+
+        return res.toString();
+
+    }
     public static int minOperations(String s) {
         int maxcount =0;
         String newstring=s;

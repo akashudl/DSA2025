@@ -19,12 +19,72 @@ public class SlidingWindow {
        //   CountOccurencesOfanagram(sc);
 //        findMaxAverage(ar,k);
 //        maxKDistinct(ar,k);
+//
+//        maxSatisfied(new int[]{1,0,1,2,1,1,7,5},new int[]{0,1,0,1,0,1,0,1},3);
+        findRepeatedDnaSequences("AAAAACCCCCAAAAACCCCCCAAAAAGGGTTT");
     }
 //    public static int[] maxKDistinct(int[] nums, int k) {
 //        int ar[]=new int[k];
 //        HashSet<Integer>set=new HashSet<>();
 //    }
 
+
+    public static List<String> findRepeatedDnaSequences(String s) {
+        Map<String,Integer> map=new HashMap<>();
+        int i=0;int j=0;int n=s.length();
+        StringBuilder ans=new StringBuilder();
+        while(j<s.length()){
+            ans.append(s.charAt(j));
+            if(j-i+1<10){
+//                AAAAACCCCC -> {Integer@1034} 1
+                j++;
+            }
+            else if(j-i+1==10){
+                String seq = ans.toString();
+                map.put(seq,map.getOrDefault(seq,0)+1);
+
+              ans.deleteCharAt(0);
+                i++;
+                j++;
+            }
+        }
+        ArrayList<String>al=new ArrayList<>();
+        for(Map.Entry<String,Integer>m:map.entrySet()){
+            if(m.getValue()>1){
+                al.add(m.getKey());
+            }
+        }
+        System.out.println(al);
+       return al;
+
+    }
+
+    public static int maxSatisfied(int[] customers, int[] grumpy, int minutes) {
+        int notgrumpcustmer=0;
+        int maxGrumphCustomer=Integer.MIN_VALUE;
+        int i=0;int j=0;int grumphyCustomersum=0;
+        while(j<customers.length){
+            if(grumpy[j]==0)
+            {
+                notgrumpcustmer+=customers[j];
+            }
+            else if(grumpy[j]!=0){
+                grumphyCustomersum+=customers[j];
+            }
+            if(j-i+1==minutes){
+                maxGrumphCustomer=Math.max(grumphyCustomersum,maxGrumphCustomer);
+                if(grumpy[i]==1){
+                    grumphyCustomersum-=customers[i];
+
+                }
+                i++;
+            }
+            j++;
+        }
+
+        return maxGrumphCustomer+notgrumpcustmer;
+
+        }
     public static double findMaxAverage(int[] nums, int k) {
         int i=0 ,j=0,sum=0;
         double maxavg=Integer.MIN_VALUE;
