@@ -47,8 +47,32 @@ public class ArrayAll {
 //        System.out.println(maxTotalValue(ar,k));
 //        maxFrequencyElements(ar);
 //        System.out.println(  rangeSum(ar,ar.length,3,4));
-        System.out.println(  sumDivisibleByK(new int [] {1,2,2,3,3,3,3,4},2));
+//        System.out.println(  sumDivisibleByK(new int [] {1,2,2,3,3,3,3,4},2));
+        System.out.println(  longestBalanced(new int [] {2,5,4,3}));
         }
+
+    public static int longestBalanced(int[] nums) {
+        int n=nums.length;
+        int maxans=0;
+        for(int i=0;i<n;i++){
+            HashSet<Integer>oddNums=new HashSet<>();
+            HashSet<Integer>evennums=new HashSet<>();
+            for(int j=i;j<n;j++){
+
+                if(nums[j]%2==0)
+                    evennums.add(nums[j]);
+                else
+                    oddNums.add(nums[j]);
+
+                if(evennums.size()==oddNums.size())
+                {
+                    maxans=Math.max(j-i+1,maxans);
+                }
+
+            }
+        }
+        return maxans;
+    }
     public static  int sumDivisibleByK(int[] nums, int k) {
         Map<Integer,Integer> map=new HashMap<>();
         for(int num:nums){
